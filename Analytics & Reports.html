@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analytics & Reports</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-green: #2e8b57;
+      --secondary-green: #a9dfbf;
+      --light-bg: #f0fff4;
+      --dark-text: #1b4332;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+    }
+
+    header {
+      background: var(--primary-green);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin: 0 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 30px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    section {
+      margin-bottom: 40px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      color: var(--primary-green);
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      background: var(--primary-green);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #24754d;
+    }
+
+    .image-container {
+      text-align: center;
+    }
+
+    .image-container img {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    canvas {
+      width: 100% !important;
+      max-width: 600px;
+      height: auto !important;
+      margin: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <h1>📊 Smart Farming – Analytics & Reports</h1>
+      <ul>
+        <li><a href="dc page 1 (1).html">Home</a></li>
+        <li><a href="#reports">Download Reports</a></li>
+        <li><a href="#visuals">Smart Farming Visual</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="reports" class="analytics-section">
+      <h2>📝 Download Reports</h2>
+      <p>Generate and download detailed farm condition and weather trend reports for your location.</p>
+      <button class="btn" id="downloadBtn">Download Report</button>
+    </section>
+
+    <section id="visuals">
+      <h2>🌱 Smart Farming Visual</h2>
+      <div class="image-container">
+        <img src="WhatsApp Image 2025-04-06 at 22.53.38.jpeg" alt="Smart Farming Image" />
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("downloadBtn").addEventListener("click", async () => {
+      try {
+        const response = await fetch("http://localhost:8000/generate-pdf");
+        if (!response.ok) throw new Error("Failed to fetch PDF.");
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "SmartFarming_Report.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch (error) {
+        alert("Error: Could not download report. Please try again.");
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>

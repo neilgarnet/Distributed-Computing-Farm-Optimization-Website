@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Farming</title>
+  <style>
+    :root {
+      --primary-green: #2e8b57;
+      --secondary-green: #a9dfbf;
+      --light-bg: #f0fff4;
+      --dark-text: #1b4332;
+      --highlight: #28a745;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+    }
+
+    header {
+      background: var(--primary-green);
+      color: white;
+      padding: 1.5rem 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    nav h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 8px 16px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #1e6b46;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h2 {
+      color: var(--primary-green);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+    }
+
+    .feature-card h3 {
+      margin: 0;
+      padding: 15px;
+      font-size: 1.2rem;
+      background: var(--secondary-green);
+      color: var(--dark-text);
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 50px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    canvas {
+      max-width: 100%;
+      height: 400px;
+    }
+
+    .insights {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .insights p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 10px auto;
+      color: #444;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      nav h1 {
+        font-size: 1.5rem;
+      }
+
+      .feature-card img {
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <h1>Smart Farming Dashboard</h1>
+      <ul>
+        <li><a href="dc page 1 (1).html">Home</a></li>
+        <li><a href="Weather Monitoring.html">Weather Updates</a></li>
+        <li><a href="Sensor Page (1).html">Sensor</a></li>
+        <li><a href="Analytics & Reports.html">Analytics</a></li>
+        <li><a href="ai insights.html">AI Insights</a></li>
+        <li><a href="dc insights.html">DC Insights</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Dashboard Features -->
+  <section>
+    <h2>🌿 Dashboard Features</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <img src="dashboard weather image.jpg" alt="Weather Monitoring">
+        <h3>Weather Monitoring</h3>
+      </div>
+      <div class="feature-card">
+        <img src="WhatsApp Image 2025-04-06 at 16.25.59.jpeg" alt="Sensor Data">
+        <h3>Sensor Data Analysis</h3>
+      </div>
+      <div class="feature-card">
+        <img src="WhatsApp Image 2025-04-06 at 16.27.52.jpeg" alt="Resource Optimization">
+        <h3>Resource Optimization</h3>
+      </div>
+      <div class="feature-card">
+        <img src="WhatsApp Image 2025-04-06 at 16.29.16.jpeg" alt="AI Insights">
+        <h3>AI-based Insights</h3>
+      </div>
+    </div>
+  </section>
+
+ 
+  <!-- ChartJS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('weatherChart').getContext('2d');
+    const weatherChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+          label: 'Temperature (°C)',
+          data: [22, 24, 26, 25, 27],
+          borderColor: '#2e8b57',
+          borderWidth: 2,
+          backgroundColor: '#a9dfbf',
+          pointBackgroundColor: '#2e8b57',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#1b4332'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              color: '#1b4332'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#1b4332'
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

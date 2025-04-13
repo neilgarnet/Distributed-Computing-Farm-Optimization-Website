@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Farming Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { text-align: center; }
+        .section { margin-bottom: 40px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #444;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Smart Farming Report</h1>
+
+    <div class="section">
+        <h2>Weather Summary</h2>
+        <table>
+            <tr><th>Temperature</th><td>N/A</td></tr>
+            <tr><th>Humidity</th><td>N/A</td></tr>
+            <tr><th>Wind Speed</th><td>N/A</td></tr>
+            <tr><th>Alert</th><td>Please enter a location.</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Sensor Data</h2>
+        <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Farming – Soil Monitoring Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e8fff0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #2e7d32;
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 25%;
+    }
+
+    .section {
+      margin: 30px 0;
+    }
+
+    .alert {
+      background-color: #fff3cd;
+      color: #856404;
+      padding: 10px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    /* Hidden export section for FastAPI PDF generation */
+    #sensor-export-data {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header>🌱 Smart Farming – Soil Monitoring Dashboard</header>
+
+  <div class="cards">
+    <div class="card">
+      <h4>🌾 Soil Moisture:</h4>
+      <p id="moisture">--</p>
+      <small>m³/m³</small>
+    </div>
+    <div class="card">
+      <h4>🧪 Surface Temperature:</h4>
+      <p id="temperature0">--</p>
+      <small>°C</small>
+    </div>
+    <div class="card">
+      <h4>🔥 Temperature at 10cm:</h4>
+      <p id="temperature10">--</p>
+      <small>°C</small>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🚨 Alerts</h3>
+    <div id="alerts"></div>
+  </div>
+
+  <!-- Hidden section for export -->
+  <div id="sensor-export-data">
+    <div id="export-moisture" data-label="Soil Moisture"></div>
+    <div id="export-temp0" data-label="Surface Temperature"></div>
+    <div id="export-temp10" data-label="Temperature at 10cm"></div>
+    <div id="export-alerts" data-label="Sensor Alerts"></div>
+  </div>
+
+  <script>
+    const polygonId = "67f271dbfd068c1f51835627";
+    const apiKey = "be5a5c051b3c6d903c3f2f9478775da4";
+
+    async function fetchLatestData() {
+      try {
+        const url = `https://api.agromonitoring.com/agro/1.0/soil?polyid=${polygonId}&appid=${apiKey}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const moisture = data.moisture;
+        const temp0 = (data.t0 - 273.15).toFixed(1);
+        const temp10 = (data.t10 - 273.15).toFixed(1);
+
+        // Display data
+        document.getElementById("moisture").textContent = moisture;
+        document.getElementById("temperature0").textContent = temp0;
+        document.getElementById("temperature10").textContent = temp10;
+
+        // Alerts
+        let alerts = [];
+        if (moisture < 0.1) alerts.push("Low soil moisture detected! Irrigation recommended.");
+        if (temp0 > 40) alerts.push("High surface temperature! Risk of heat stress to crops.");
+        if (temp10 > 35) alerts.push("High subsurface temperature at 10cm.");
+
+        const alertHTML = alerts.length
+          ? alerts.map(a => `<div class='alert'>⚠️ ${a}</div>`).join('<br>')
+          : `<div class='alert'>✅ All conditions normal.</div>`;
+
+        document.getElementById("alerts").innerHTML = alertHTML;
+
+        // Save to localStorage
+        const exportData = {
+          moisture,
+          temp0,
+          temp10,
+          alerts: alerts.join(' | ') || "All conditions normal"
+        };
+
+        localStorage.setItem("sensorData", JSON.stringify(exportData));
+
+        // Populate export section
+        document.getElementById("export-moisture").textContent = `${moisture} m³/m³`;
+        document.getElementById("export-temp0").textContent = `${temp0} °C`;
+        document.getElementById("export-temp10").textContent = `${temp10} °C`;
+        document.getElementById("export-alerts").textContent = exportData.alerts;
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        const savedData = localStorage.getItem("sensorData");
+
+        if (savedData) {
+          const { moisture, temp0, temp10, alerts } = JSON.parse(savedData);
+
+          document.getElementById("moisture").textContent = moisture;
+          document.getElementById("temperature0").textContent = temp0;
+          document.getElementById("temperature10").textContent = temp10;
+          document.getElementById("alerts").innerHTML = alerts;
+
+          document.getElementById("export-moisture").textContent = `${moisture} m³/m³`;
+          document.getElementById("export-temp0").textContent = `${temp0} °C`;
+          document.getElementById("export-temp10").textContent = `${temp10} °C`;
+          document.getElementById("export-alerts").textContent = alerts.replace(/<[^>]*>/g, '');
+        } else {
+          document.getElementById("alerts").innerHTML = "<div class='alert'>⚠️ Unable to fetch data and no local data available.</div>";
+        }
+      }
+    }
+
+    fetchLatestData();
+  </script>
+</body>
+
+</html>
+
+    </div>
+</body>
+</html>
