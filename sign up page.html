@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Smart Farming</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="signup.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Smart Farming</h1>
+        </nav>
+    </header>
+    <main>
+        <section class="auth-section">
+            <img src="C:\Users\Neil Advani\Downloads\DC Project new\sign up page pic.png" alt="Hydroponic Farming" class="banner-image" height="300cm" width="600cm">
+            <h2>Create Your Account</h2>
+            <p>Join us to optimize your farming with AI-driven insights.</p>
+            <form id="signup-form">
+                <input type="text" id="full-name" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="C:\Users\Neil Advani\Downloads\DC Project new\Admin page (1).html">Login</a></p>
+            <p id="error-message" style="color: red;"></p>
+        </section>
+    </main>
+
+    <script type="module" src="login.js"></script>
+</body>
+</html>
